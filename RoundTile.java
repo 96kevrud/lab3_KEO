@@ -13,7 +13,7 @@ import java.awt.Stroke;
  * it is told what size and position that
  * should be used to paint it.
  */
-public class RoundTile extends GameTile {
+public class RoundTile implements GameTile {
 
 	/** The color of the circle */
 	private final Color strokeColor;
@@ -90,7 +90,7 @@ public class RoundTile extends GameTile {
 	 * @param d
 	 *            size of this object in pixels.
 	 */
-	@Override
+
 	public void draw(final Graphics g, final int x, final int y,
 			final Dimension d) {
 		Graphics2D g2 = (Graphics2D) g;
