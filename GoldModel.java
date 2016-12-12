@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +118,17 @@ public class GoldModel extends GameUtils{
 		for (int i = 0; i < COIN_START_AMOUNT; i++) {
 			addCoin();
 		}
+	}
+
+	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+
+	public void addObserver(PropertyChangeListener observer) {
+		this.pcs.addPropertyChangeListener(observer);
+	}
+
+	public void removeObserver(PropertyChangeListener observer){
+		this.pcs.removePropertyChangeListener(observer);
 	}
 
 	/**

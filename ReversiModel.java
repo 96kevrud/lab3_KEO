@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * A somewhat defective implementation of the game Reversi. The purpose
  * of this class is to illustrate shortcomings in the game framework.
- * 
+ * PropertyChangeListener
  * @author evensen
  * 
  */
@@ -137,6 +140,17 @@ public class ReversiModel extends GameUtils {
 	 */
 	private boolean isPositionEmpty(final Position pos) {
 		return this.board[pos.getX()][pos.getY()] == PieceColor.EMPTY;
+	}
+
+	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+
+	public void addObserver(PropertyChangeListener observer) {
+		this.pcs.addPropertyChangeListener(observer);
+	}
+
+	public void removeObserver(PropertyChangeListener observer){
+		this.pcs.removePropertyChangeListener(observer);
 	}
 
 	/**
