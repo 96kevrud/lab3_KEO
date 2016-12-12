@@ -231,6 +231,8 @@ public class GoldModel extends GameUtils{
 
 		// Add a new coin (simulating moving one coin)
 		addCoin();
+		// fires every cycle because the game is tied to the framerate, the coins move everytime the gameupdates (stupid)
+		this.pcs.firePropertyChange("",null,null);
 
 	}
 

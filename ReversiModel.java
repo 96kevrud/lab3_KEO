@@ -353,6 +353,10 @@ public class ReversiModel extends GameUtils {
 		} else {
 			throw new GameOverException(this.blackScore - this.whiteScore);
 		}
+		// fires only if a keypress is detected
+		if(lastKey != 0){
+			this.pcs.firePropertyChange("",null,null);
+		}
 	}
 
 	/*private void removeCursor(final Position oldCursorPos) {

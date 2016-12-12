@@ -143,13 +143,16 @@ public class GameController implements Runnable {
 	 */
 	@Override
 	public void run() {
+		gameModel.addObserver(view); //adds listener to view
+
 		while (this.isRunning) {
 			try {
 				// Tell model to update, send next key press.
 				// or 0 if no new keypress since last update.
+
 				this.gameModel.gameUpdate(nextKeyPress());
 
-				this.view.repaint();
+				//this.view.repaint();
 
 				Thread.sleep(this.updateInterval);
 			} catch (GameOverException e) {
