@@ -96,7 +96,10 @@ public class GoldModel extends GameUtils{
 	/** The number of coins found. */
 	private int score;
 
+	// Updatespeed for the game (interval between updates)
+	private final int updateSpeed = 150;
 	/**
+	 *
 	 * Create a new model for the gold game.
 	 */
 	public GoldModel() {
@@ -129,6 +132,10 @@ public class GoldModel extends GameUtils{
 
 	public void removeObserver(PropertyChangeListener observer){
 		this.pcs.removePropertyChangeListener(observer);
+	}
+
+	public int getUpdateSpeed(){
+		return updateSpeed;
 	}
 
 	/**

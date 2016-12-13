@@ -59,6 +59,13 @@ public interface GameModel extends IObservable {
 	public GameTile getGameboardState(final Position pos);
 		//return getGameboardState(pos.getX(), pos.getY());
 
+
+
+
+	public int getUpdateSpeed();
+
+
+
 	/**
 	 * Returns the GameTile in logical position (x,y) of the gameboard.
 	 * 

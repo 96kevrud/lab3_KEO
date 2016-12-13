@@ -18,7 +18,7 @@ public class GameController implements Runnable {
 	private GameModel gameModel;
 
 	/** The timeout interval between each update. (millis) */
-	private final int updateInterval;
+	private int updateInterval; //had to remove final because cant decide the interval before a game is chosen
 
 	/** True when game is running. */
 	private boolean isRunning;
@@ -47,7 +47,7 @@ public class GameController implements Runnable {
 		this.view = view;
 		this.gameModel = null;
 		this.isRunning = false;
-		this.updateInterval = 150;
+		//this.updateInterval = 150;
 
 		this.keypresses = new LinkedList<Integer>();
 
@@ -69,6 +69,9 @@ public class GameController implements Runnable {
 	 */
 	private synchronized void enqueueKeyPress(final int key) {
 		this.keypresses.add(Integer.valueOf(key));
+		if(updateInterval <= 0){ //because no new theread will start if updateInterval < 0, we have o update the game here
+			updateGame();
+		}
 	}
 
 	/**
@@ -104,11 +107,14 @@ public class GameController implements Runnable {
 
 		// Actually start the game
 		this.gameModel = gameModel;
+		this.updateInterval = this.gameModel.getUpdateSpeed(); //have to add updateinterval here because the model isnt decided before.
 		this.isRunning = true;
 
 		// Create the new thread and start it...
-		this.gameThread = new Thread(this);
-		this.gameThread.start();
+		if (updateInterval > 0) { //only start thread if it is needed
+			this.gameThread = new Thread(this);
+			this.gameThread.start();
+		}
 	}
 
 	/**
@@ -118,6 +124,7 @@ public class GameController implements Runnable {
 		// Setting isRunning to false will
 		// make the thread stop (see run())
 		this.isRunning = false;
+		this.keypresses.clear(); //to prevent old keypressbuildups to tranfer to a new game
 
 		// Unset the game model...
 		this.view.setModel(null);
@@ -143,27 +150,36 @@ public class GameController implements Runnable {
 	 */
 	@Override
 	public void run() {
-		gameModel.addObserver(view); //adds listener to view
+
 
 		while (this.isRunning) {
 			try {
-				// Tell model to update, send next key press.
-				// or 0 if no new keypress since last update.
-
-				this.gameModel.gameUpdate(nextKeyPress());
-
-				//this.view.repaint();
-
+				updateGame();
 				Thread.sleep(this.updateInterval);
-			} catch (GameOverException e) {
-				// we got a game over signal, time to exit...
-				// The current implementation ignores the game score
-				this.isRunning = false;
-				System.out.println("Game over: " + e.getScore());
 			} catch (InterruptedException e) {
 				// if we get this exception, we're asked to terminate ourselves
 				this.isRunning = false;
 			}
+		}
+
+	}
+	// split run to enable directkeypresses (one keypress = on gameUpdate)
+	private void updateGame (){
+		try {
+			// Tell model to update, send next key press.
+			// or 0 if no new keypress since last update.
+
+			this.gameModel.gameUpdate(nextKeyPress());
+
+			//this.view.repaint();
+
+
+		} catch (GameOverException e) {
+			// we got a game over signal, time to exit...
+			// The current implementation ignores the game score
+			this.isRunning = false;
+			System.out.println("Game over: " + e.getScore());
+
 		}
 	}
 }
