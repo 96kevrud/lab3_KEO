@@ -199,9 +199,10 @@ public class ReversiModel extends GameUtils {
 						(this.turn == Turn.BLACK
 								? PieceColor.BLACK
 								: PieceColor.WHITE);
-				System.out.println("Bong! White: " + this.whiteScore
-						+ "\tBlack: " + this.blackScore);
+				//System.out.println("Bong! White: " + this.whiteScore
+						//+ "\tBlack: " + this.blackScore);
 				this.turn = Turn.nextTurn(this.turn);
+				this.pcs.firePropertyChange("scoreChange",null,null); //fires after a turn is over and the next player is decided
 			}
 			if (!canTurn(this.turn)) {
 				if (!canTurn(Turn.nextTurn(this.turn))) {
@@ -361,7 +362,7 @@ public class ReversiModel extends GameUtils {
 		}
 		// fires only if a keypress is detected
 		if(lastKey != 0){
-			this.pcs.firePropertyChange("",null,null);
+			this.pcs.firePropertyChange("viewChange",null,null);
 		}
 	}
 

@@ -114,8 +114,9 @@ public class GameView extends JComponent implements PropertyChangeListener{
 		}
 	}
  	// runs repaint when a change is detected
-	public void propertyChange(PropertyChangeEvent pce) {
-		this.repaint();
-		System.out.println("hej"); //just to see when/if a change is made, will remove later
+	public void propertyChange(PropertyChangeEvent viewEvent) {
+		if(viewEvent.getPropertyName().equals("viewChange")){      //getPropertyName().equals("viewEvent")){
+			this.repaint();
+		}
 	}
 }

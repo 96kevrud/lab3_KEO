@@ -1,3 +1,6 @@
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 /**
  * Factory class for available games.
  */
@@ -7,6 +10,7 @@ public class GameFactory implements IGameFactory {
 	 * Returns an array with names of games this factory can create. Used by GUI
 	 * list availible games.
 	 */
+	private GameModel gameModel;
 	@Override
 	public String[] getGameNames() {
 		return new String[] { "Gold","Reversi"};
@@ -25,7 +29,10 @@ public class GameFactory implements IGameFactory {
 		if (gameName.equals("Gold")) {
 			return new GoldModel();
 		}else if(gameName.equals("Reversi")) {
-			return new ReversiModel();
+			GameModel gameModel = new ReversiModel();
+			gameModel.addObserver(new ReversiScoreView());
+			return gameModel;
+
 		}
 
 		throw new IllegalArgumentException("No such game: " + gameName);

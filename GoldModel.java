@@ -125,7 +125,7 @@ public class GoldModel extends GameUtils{
 
 	PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-
+	@Override
 	public void addObserver(PropertyChangeListener observer) {
 		this.pcs.addPropertyChangeListener(observer);
 	}
@@ -239,7 +239,7 @@ public class GoldModel extends GameUtils{
 		// Add a new coin (simulating moving one coin)
 		addCoin();
 		// fires every cycle because the game is tied to the framerate, the coins move everytime the gameupdates (stupid)
-		this.pcs.firePropertyChange("",null,null);
+		this.pcs.firePropertyChange("viewChange",null,null);
 
 	}
 

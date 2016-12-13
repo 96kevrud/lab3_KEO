@@ -1,8 +1,9 @@
+import java.beans.PropertyChangeListener;
+
 /**
  * Factory interface for available games.
  */
-public interface IGameFactory {
-	/**
+public interface IGameFactory {	/**
 	 * Returns an array with names of games this factory can create. Used by GUI
 	 * list availible games.
 	 */
